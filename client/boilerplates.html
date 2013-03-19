@@ -3,6 +3,91 @@
 </head>
 
 <body>
-  Work in progress...<br />
-  For now, use only git clone URLs with <a href="http://ajaymt.github.com/boilerplate">boilerplate</a>.
+  {{renderPage}}
 </body>
+
+<template name="main">
+  <div class="container">
+    <div class="row">
+      <div class="text-center">
+        <h1>Boilerplates</h1>
+        <p class="lead">Code templates to make your life easier.</p>
+        <a class="btn btn-large btn-primary" href="/boilerplates">Browse boilerplates</a>
+        <button class="btn btn-large btn-success">Login with GitHub</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="boilerplates">
+  <div class="container">
+	{{> topbar}}
+
+	<div class="row content">
+	  <div class="span3">
+		<ul class="nav nav-list">
+		  <li class="nav-header">Tags</li>
+		  {{#each tags}}
+		  <li class="{{selectedTag}} tag"><a>{{name}}</a></li>
+		  {{else}}
+		  <li class="muted">Nothing to show.</li>
+		  {{/each}}
+		</ul>
+	  </div>
+	  <div class="span9">
+		<table class="table">
+		  <thead>
+			<th>Name</th>
+			<th>Uses</th>
+			<th>Upvotes</th>
+			<th>Downvotes</th>
+		  </thead>
+		  <tbody>
+			{{#each boilerplates}}
+			<tr>
+			  <td><a class="bp" href="/boilerplates/{{name}}">{{name}}</a></td>
+			  <td>{{uses}}</td>
+			  <td class="text-success">{{upvotes}}</td>
+			  <td class="text-error">{{downvotes}}</td>
+			</tr>
+			{{else}}
+			<tr>
+			  <td class="muted">Nothing to show.</td>
+			  <td></td>
+			  <td></td>
+			  <td></td>
+			</tr>
+			{{/each}}
+		  </tbody>
+		</table>
+	  </div>
+	</div>
+  </div>
+</template>
+
+<template name="topbar">
+  <div class="row topbar">
+    <div class="span6">
+	  <h4><a href="/">Boilerplates</a></h3>
+    </div>
+    {{#if currentUser}}
+    <div class="span6">
+      <h4 class="pull-right"><a href="/add">Add a boilerplate</a></h4>
+    </div>
+    {{else}}
+    <div class="span6">
+      <h4 class="pull-right"><a>Login with Github</a></h4>
+    </div>
+    {{/if}}
+  </div>
+</template>
+
+
+<template name="detail">
+  <div class="container">
+	{{> topbar}}
+	<div class="row content">
+	  <h3>{{bpname}}</h3>
+	</div>
+  </div>
+</template>
