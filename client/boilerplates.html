@@ -21,73 +21,99 @@
 
 <template name="boilerplates">
   <div class="container">
-	{{> topbar}}
-
-	<div class="row content">
-	  <div class="span3">
-		<ul class="nav nav-list">
-		  <li class="nav-header">Tags</li>
-		  {{#each tags}}
-		  <li class="{{selectedTag}} tag"><a>{{name}}</a></li>
-		  {{else}}
-		  <li class="muted">Nothing to show.</li>
-		  {{/each}}
-		</ul>
-	  </div>
-	  <div class="span9">
-		<table class="table">
-		  <thead>
-			<th>Name</th>
-			<th>Uses</th>
-			<th>Upvotes</th>
-			<th>Downvotes</th>
-		  </thead>
-		  <tbody>
-			{{#each boilerplates}}
-			<tr>
-			  <td><a class="bp" href="/boilerplates/{{name}}">{{name}}</a></td>
-			  <td>{{uses}}</td>
-			  <td class="text-success">{{upvotes}}</td>
-			  <td class="text-error">{{downvotes}}</td>
-			</tr>
-			{{else}}
-			<tr>
-			  <td class="muted">Nothing to show.</td>
-			  <td></td>
-			  <td></td>
-			  <td></td>
-			</tr>
-			{{/each}}
-		  </tbody>
-		</table>
-	  </div>
-	</div>
+    {{> topbar}}
+    <div class="row content">
+      <div class="span3">
+        <ul class="nav nav-list" data-spy="affix" data-offset-top="50">
+          <li class="nav-header">Tags</li>
+          {{#each tags}}
+          <li class="{{selectedTag}} tag"><a>{{name}}</a></li>
+          {{else}}
+          <li class="muted">Nothing to show.</li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="span9">
+        <table class="table">
+          <thead>
+            <th>Name</th>
+            <th>Uses</th>
+            <th>Upvotes</th>
+            <th>Downvotes</th>
+          </thead>
+          <tbody>
+            {{#each boilerplates}}
+            <tr>
+              <td><a class="bp" href="/boilerplates/{{name}}">{{name}}</a></td>
+              <td>{{uses}}</td>
+              <td class="text-success">{{upvotes}}</td>
+              <td class="text-error">{{downvotes}}</td>
+            </tr>
+            {{else}}
+            <tr>
+              <td class="muted">Nothing to show.</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
 <template name="topbar">
   <div class="row topbar">
     <div class="span6">
-	  <h4><a href="/">Boilerplates</a></h3>
+      <h4><a href="/boilerplates">Boilerplates</a></h3>
     </div>
-    {{#if currentUser}}
     <div class="span6">
       <h4 class="pull-right"><a href="/add">Add a boilerplate</a></h4>
     </div>
-    {{else}}
-    <div class="span6">
+    <!--<div class="span6">
       <h4 class="pull-right"><a>Login with Github</a></h4>
-    </div>
-    {{/if}}
+    </div>-->
   </div>
 </template>
 
+<template name="add">
+  <div class="container">
+    {{> topbar}}
+    <div class="row content">
+      <h3>Add a boilerplate</h3><br />
+      <h4>Name: </h4><h4 class="muted">(required)</h4>
+      <input type="text" id="bpname" placeholder="html5" class="span8" /><br /><br />
+      <h4>Git clone URL: </h4><h4 class="muted">(required)</h4>
+      <input type="text" id="bpcloneurl" placeholder="http://github.com/h5bp/html5-boilerplate.git"
+             class="span8" /><br /><br />
+      <h4>Raw README URL: </h4><h4 class="muted">(optional)</h4>
+      <input type="text" id="bpreadmeurl" 
+             placeholder="http://raw.github.com/h5bp/html5-boilerplate/master/README.md" class="span8" /><br />
+      <br />
+      <h4>Tags: </h4><h4 class="muted">(optional)</h4>
+      <textarea id="bptags" rows="4" class="span8" placeholder="web html5 front-end"></textarea><br /><br />
+      <button class="btn btn-large btn-success">Add it!</button>
+    </div>
+  </div>
+</template>
 
 <template name="detail">
   <div class="container">
-	{{> topbar}}
-	<div class="row content">
-	  <h3>{{bpname}}</h3>
-	</div>
+    {{> topbar}}
+    <div class="row content">
+      <h3>{{bp.name}}</h3><br />
+      <h4>Git clone URL: </h4><p><a href="{{bp.cloneURL}}">{{bp.cloneURL}}</a></p><br />
+      <h4>Uses: </h4><p>{{bp.uses}}</p><br />
+      <h4>Upvotes: </h4><p class="text-success">{{bp.upvotes}}<br />
+      <button class="btn btn-success">Upvote</button></p><br />
+      <h4>Downvotes: </h4><p class="text-error">{{bp.downvotes}}<br />
+      <button class="btn btn-danger">Downvote</button></p><br />
+      <h4>README: </h4>
+      <div class="readme">
+        {{bp.readme}}
+      </div>
+    </div>
   </div>
 </template>

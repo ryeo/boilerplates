@@ -1,17 +1,25 @@
 hr {
-	border-color: #333;
-	border-style: dashed;
+    border-color: #333;
+    border-style: dashed;
 }
 
 .topbar {
-	position: fixed;
-	background-color: #eee;
-	box-sizing: border-box;
-	border-bottom-style: dashed;
-	border-bottom-color: #333;
-	border-bottom-width: 2px;
+    position: fixed;
+    background-color: #eee;
+    box-sizing: border-box;
+    border-bottom-style: dashed;
+    border-bottom-color: #333;
+    border-bottom-width: 2px;
 }
 
 .content {
-	margin-top: 50px;
+    margin-top: 50px;
+}
+
+input {
+    font-family: monospace;
+}
+
+textarea {
+    font-family: monospace;
 }
