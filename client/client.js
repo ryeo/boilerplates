@@ -19,15 +19,21 @@ Template.boilerplates.tags = function () {
 }
 
 Template.detail.bp = function () {
+  return Boilerplates.findOne(Session.get('boilerplate'));
+}
+
+Template.detail.readme = function () {
   var bp = Boilerplates.findOne(Session.get('boilerplate'));
-  bp.readme = 'No README URL specified.';
+  var rdm = 'Loading...'
   if (bp.readmeURL !== '') {
-    Meteor.http.get(bp.readmeURL, { headers: { 'Accept': '*/*' } },
-                    function (err, res) {
-      bp.readme = res.content;
+    Meteor.call('getREADME', bp.readmeURL, function (err, res) {
+      rdm = res.content;
+      $('.readme').html(marked(rdm));
     });
+  } else {
+    rdm = 'No README URL specified.';
   }
-  return bp;
+  return rdm;
 }
 
 Template.detail.events({
@@ -75,6 +81,7 @@ Template.add.events({
           Tags.insert({ name: bp.tags[i] });
         }
       }
+      if (bp.readmeURL !== '') bp.readmeURL = 'http://' + bp.readmeURL.split('://')[1];
       Boilerplates.insert(bp);
       Meteor.Router.to('/boilerplates');
     });

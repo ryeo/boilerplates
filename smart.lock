@@ -7,7 +7,9 @@
   "dependencies": {
     "basePackages": {
       "router": {},
-      "transitioner": {}
+      "transitioner": {},
+      "node-modules": {},
+      "marked": {}
     },
     "packages": {
       "router": {
@@ -19,6 +21,16 @@
         "git": "https://github.com/tmeasday/meteor-transitioner.git",
         "tag": "v0.2.3",
         "commit": "a9f4a19bd425252471887cfb03586bf910f35b0d"
+      },
+      "node-modules": {
+        "git": "https://github.com/possibilities/meteor-node-modules.git",
+        "tag": "v0.0.5",
+        "commit": "d502e5091759073a6baed856fadd93012749842d"
+      },
+      "marked": {
+        "git": "https://github.com/chuangbo/meteor-marked.git",
+        "tag": "v0.2.8",
+        "commit": "1020dbe058f203b9135438eb61f6e2993323fc80"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

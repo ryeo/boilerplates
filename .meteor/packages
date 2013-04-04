@@ -9,3 +9,5 @@ preserve-inputs
 router
 accounts-github
 http
+node-modules
+marked
