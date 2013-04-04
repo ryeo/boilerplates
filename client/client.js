@@ -9,6 +9,32 @@ Meteor.Router.add({
   '/add': 'add'
 });
 
+Template.main.count = function () { return Boilerplates.find().count(); }
+
+Template.main.upvotes = function () {
+  var upvotes = 0;
+  Boilerplates.find().forEach(function (bp) {
+    upvotes += bp.upvotes;
+  });
+  return upvotes;
+}
+
+Template.main.downvotes = function () {
+  var downvotes = 0;
+  Boilerplates.find().forEach(function (bp) {
+    downvotes += bp.downvotes;
+  });
+  return downvotes;
+}
+
+Template.main.uses = function () {
+  var uses = 0;
+  Boilerplates.find().forEach(function (bp) {
+    uses += bp.uses;
+  });
+  return uses;
+}
+
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   return Boilerplates.find({ tags: Session.get('selectedTag') }, { sort: { name: 1 } });
@@ -24,7 +50,7 @@ Template.detail.bp = function () {
 
 Template.detail.readme = function () {
   var bp = Boilerplates.findOne(Session.get('boilerplate'));
-  var rdm = 'Loading...'
+  var rdm = 'Loading...';
   if (bp.readmeURL !== '') {
     Meteor.call('getREADME', bp.readmeURL, function (err, res) {
       rdm = res.content;
