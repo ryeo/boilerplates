@@ -75,7 +75,7 @@ Template.topbar.events({
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   return Boilerplates.find({ tags: Session.get('selectedTag'),
-			     name: { $regex: '.*' + $('#search').val() + '.*' } }, { sort: { name: 1 } });
+                             name: { $regex: '.*' + $('#search').val() + '.*' } }, { sort: { name: 1 } });
 }
 
 Template.boilerplates.tags = function () {
@@ -104,10 +104,12 @@ Template.detail.readme = function () {
 
 Template.detail.events({
   'click button.btn-success': function () {
+    if (! Meteor.user()) alert('You need to login to vote.');
     Boilerplates.update(Boilerplates.findOne({ name: Session.get('boilerplate') })._id, 
                         { $inc: { upvotes: 1 } });
   },
   'click button.btn-danger': function () {
+    if (! Meteor.user()) alert('You need to login to vote.');
     Boilerplates.update(Boilerplates.findOne({ name: Session.get('boilerplate') })._id, 
                         { $inc: { upvotes: 1 } });
   }
