@@ -6,7 +6,10 @@ Meteor.Router.add({
     console.log(Boilerplates.find().fetch());
     return 'detail';
   },
-  '/add': 'add'
+  '/add': function () {
+    if (Meteor.user()) return 'add';
+    Meteor.Router.to('/'); return 'main';
+  }
 });
 
 Template.main.mostUsed = function () {
