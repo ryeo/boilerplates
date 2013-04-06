@@ -1,9 +1,9 @@
 Meteor.Router.add({
   '/': 'main',
   '/boilerplates': 'boilerplates',
-  '/boilerplates/:bpname': function (bpname) {
-    var id = Boilerplates.findOne({ name: bpname })._id;
-    Session.set('boilerplate', id);
+  '/boilerplates/:name': function (name) {
+    Session.set('boilerplate', name);
+    console.log(Boilerplates.find().fetch());
     return 'detail';
   },
   '/add': 'add'
@@ -45,11 +45,13 @@ Template.boilerplates.tags = function () {
 }
 
 Template.detail.bp = function () {
-  return Boilerplates.findOne(Session.get('boilerplate'));
+  if (Boilerplates.find().fetch().length === 0) return;
+  return Boilerplates.findOne({ name: Session.get('boilerplate') });
 }
 
 Template.detail.readme = function () {
-  var bp = Boilerplates.findOne(Session.get('boilerplate'));
+  if (Boilerplates.find().fetch().length === 0) return;
+  var bp = Boilerplates.findOne({ name: Session.get('boilerplate') });
   var rdm = 'Loading...';
   if (bp.readmeURL !== '') {
     Meteor.call('getREADME', bp.readmeURL, function (err, res) {
@@ -64,10 +66,12 @@ Template.detail.readme = function () {
 
 Template.detail.events({
   'click button.btn-success': function () {
-    Boilerplates.update(Session.get('boilerplate'), { $inc: { upvotes: 1 } });
+    Boilerplates.update(Boilerplates.findOne({ name: Session.get('boilerplate') })._id, 
+                        { $inc: { upvotes: 1 } });
   },
   'click button.btn-danger': function () {
-    Boilerplates.update(Session.get('boilerplate'), { $inc: { downvotes: 1 } });
+    Boilerplates.update(Boilerplates.findOne({ name: Session.get('boilerplate') })._id, 
+                        { $inc: { upvotes: 1 } });
   }
 });
 
