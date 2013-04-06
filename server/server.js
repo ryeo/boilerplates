@@ -9,6 +9,7 @@ Meteor.methods({
   getCloneURL: function (boilerplateName) {
     var boilerplate = Boilerplates.findOne({ name: boilerplateName });
     if (! boilerplate) return '(null)';
+    Boilerplates.update(boilerplate._id, { $inc: { uses: 1 } });
     return boilerplate.cloneURL;
   },
   getREADME: function (readmeURL) {
