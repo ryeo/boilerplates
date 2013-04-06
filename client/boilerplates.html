@@ -13,8 +13,9 @@
         <h1>Boilerplates</h1>
         <p class="lead">Code templates to make your life easier.</p>
         <a class="btn btn-large btn-primary" href="/boilerplates">Browse boilerplates</a>
-        <button class="btn btn-large btn-success">Login with GitHub</button><br /><br />
-        <h4><a href="http://ajaymt.github.com/boilerplate">Find out what this is</a></h4>
+        {{#unless currentUser}}<button class="btn btn-large btn-success">Login with GitHub</button>
+        {{else}}<button class="btn btn-large btn-danger">Logout {{currentUser.username}}</button>{{/unless}}
+        <br /><br /><h4><a href="http://ajaymt.github.com/boilerplate">Find out what this is</a></h4>
       </div>
     </div>
     <hr />
@@ -102,11 +103,16 @@
       <h4><a href="/boilerplates">Boilerplates</a></h3>
     </div>
     <div class="span6">
-      <h4 class="pull-right"><a href="/add">Add a boilerplate</a></h4>
+      <h4 class="pull-right">
+        {{#if currentUser}}
+        <a href="/add">Add a boilerplate</a>
+        or
+        <a class="logout">Logout {{currentUser.username}}</a>
+        {{else}}
+        <a class="login">Login with GitHub</a>
+        {{/if}}
+      </h4>
     </div>
-    <!--<div class="span6">
-      <h4 class="pull-right"><a>Login with Github</a></h4>
-    </div>-->
   </div>
 </template>
 

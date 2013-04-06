@@ -43,6 +43,32 @@ Template.main.uses = function () {
   return uses;
 }
 
+Template.main.events({
+  'click button.btn-success': function () {
+    Meteor.loginWithGithub(function (err) {
+      if (err) alert('An error occurred during the login process.');
+    });
+  },
+  'click button.btn-danger': function () {
+    Meteor.logout(function (err) {
+      if (err) alert('An error occurred during the logout process.')
+    });
+  }
+});
+
+Template.topbar.events({
+  'click a.logout': function () {
+    Meteor.logout(function (err) {
+      if (err) alert('An error occurred during the logout process.');
+    });
+  },
+  'click a.login': function () {
+    Meteor.loginWithGithub(function (err) {
+      if (err) alert('An error occurred during the logout process.');
+    });
+  }
+});
+
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   return Boilerplates.find({ tags: Session.get('selectedTag') }, { sort: { name: 1 } });
