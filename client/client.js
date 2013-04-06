@@ -9,6 +9,14 @@ Meteor.Router.add({
   '/add': 'add'
 });
 
+Template.main.mostUsed = function () {
+  return Boilerplates.find({}, { sort: { uses: -1 } }).fetch().slice(0, 10);
+}
+
+Template.main.highestVoted = function () {
+  return Boilerplates.find({}, { sort: { upvotes: -1 } }).fetch().slice(0, 10);
+}
+
 Template.main.count = function () { return Boilerplates.find().count(); }
 
 Template.main.upvotes = function () {
