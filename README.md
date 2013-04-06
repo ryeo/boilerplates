@@ -24,4 +24,4 @@ follow these rules -
 * Use two-space indents, no tabs.
 * Preferably `''` instead of `""`.
 * `if (! something)` instead of `if(!something)`.
-* Don't feel guilty about comments and whitespace!
+* Don't hesitate to add comments and whitespace!
