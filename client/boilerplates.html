@@ -3,8 +3,17 @@
 </head>
 
 <body>
-  {{renderPage}}
+  {{> page}}
 </body>
+
+<template name="page">
+  {{#unless loading}}
+  {{renderPage}}
+  {{else}}
+  <h2 class="text-center">Thinking...</h2>
+  {{/unless}}
+</template>
+
 
 <template name="main">
   <div class="container">

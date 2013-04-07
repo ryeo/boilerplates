@@ -1,3 +1,6 @@
+Meteor.publish('boilerplates', function () { return Boilerplates.find(); });
+Meteor.publish('tags', function () { return Tags.find(); });
+
 Accounts.loginServiceConfiguration.remove({ service: 'github' });
 Accounts.loginServiceConfiguration.insert({
   service: 'github',

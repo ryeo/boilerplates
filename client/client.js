@@ -1,9 +1,13 @@
+Meteor.startup(function () { Session.set('loading', true); });
+Meteor.subscribe('tags');
+Meteor.subscribe('boilerplates', function () { Session.set('loading', false); });
+
 Meteor.Router.add({
   '/': 'main',
   '/boilerplates': 'boilerplates',
   '/boilerplates/:name': function (name) {
+    if (! Boilerplates.findOne({ name: name })) { Meteor.Router.to('/boilerplates'); return 'boilerplates'; }
     Session.set('boilerplate', name);
-    console.log(Boilerplates.find().fetch());
     return 'detail';
   },
   '/add': function () {
@@ -11,6 +15,8 @@ Meteor.Router.add({
     Meteor.Router.to('/'); return 'main';
   }
 });
+
+Template.page.loading = function () { return Session.get('loading'); }
 
 Template.main.mostUsed = function () {
   return Boilerplates.find({}, { sort: { uses: -1 } }).fetch().slice(0, 10);
