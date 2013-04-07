@@ -80,8 +80,10 @@ Template.topbar.events({
 
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
+  Session.setDefault('search', '');
+  if (Boilerplates.find().fetch().length === 0) return;
   return Boilerplates.find({ tags: Session.get('selectedTag'),
-                             name: { $regex: '.*' + $('#search').val() + '.*', $options: 'i' } },
+                             name: { $regex: '.*' + Session.get('search') + '.*', $options: 'i' } },
                            { sort: { name: 1 } });
 }
 
@@ -171,5 +173,8 @@ Template.boilerplates.events({
       Session.set('selectedTag', ''); return;
     }
     Session.set('selectedTag', this.name);
+  },
+  'keyup input': function () {
+    Session.set('search', $('#search').val());
   }
 });
