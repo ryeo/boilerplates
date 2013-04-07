@@ -28,7 +28,7 @@ Template.main.highestVoted = function () {
 
 Template.main.count = function () { return Boilerplates.find().count(); }
 
-Template.main.upvotes = function () {
+Template.main.totalUpvotes = function () {
   var upvotes = 0;
   Boilerplates.find().forEach(function (bp) {
     upvotes += bp.upvotes;
@@ -36,7 +36,7 @@ Template.main.upvotes = function () {
   return upvotes;
 }
 
-Template.main.downvotes = function () {
+Template.main.totalDownvotes = function () {
   var downvotes = 0;
   Boilerplates.find().forEach(function (bp) {
     downvotes += bp.downvotes;
@@ -44,7 +44,7 @@ Template.main.downvotes = function () {
   return downvotes;
 }
 
-Template.main.uses = function () {
+Template.main.totalUses = function () {
   var uses = 0;
   Boilerplates.find().forEach(function (bp) {
     uses += bp.uses;
