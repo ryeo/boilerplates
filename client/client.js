@@ -81,7 +81,8 @@ Template.topbar.events({
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   return Boilerplates.find({ tags: Session.get('selectedTag'),
-                             name: { $regex: '.*' + $('#search').val() + '.*' } }, { sort: { name: 1 } });
+                             name: { $regex: '.*' + $('#search').val() + '.*', $options: 'i' } },
+                           { sort: { name: 1 } });
 }
 
 Template.boilerplates.tags = function () {
