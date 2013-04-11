@@ -81,10 +81,11 @@ Template.topbar.events({
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   Session.setDefault('search', '');
+  Session.setDefault('sort', { name: 1 });
   if (Boilerplates.find().fetch().length === 0) return;
   return Boilerplates.find({ tags: Session.get('selectedTag'),
                              name: { $regex: '.*' + Session.get('search') + '.*', $options: 'i' } },
-                           { sort: { name: 1 } });
+                           { sort: Session.get('sort') });
 }
 
 Template.boilerplates.tags = function () {
@@ -127,6 +128,20 @@ Template.detail.events({
 Template.boilerplates.selectedTag = function () {
   if (Session.equals('selectedTag', this.name)) return 'active';
   return '';
+}
+
+Template.boilerplates.sort = function () {
+  var sort = {
+    name: '',
+    uses: '',
+    upvotes: '',
+    downvotes: ''
+  };
+  if (Session.get('sort').name) sort.name = 'selectedSort';
+  if (Session.get('sort').uses) sort.uses = 'selectedSort';
+  if (Session.get('sort').upvotes) sort.upvotes = 'selectedSort';
+  if (Session.get('sort').downvotes) sort.downvotes = 'selectedSort';
+  return sort;
 }
 
 Template.add.events({
@@ -173,6 +188,13 @@ Template.boilerplates.events({
       Session.set('selectedTag', ''); return;
     }
     Session.set('selectedTag', this.name);
+  },
+  'click th': function (event) {
+    var text = event.target.innerText.toLowerCase();
+    if (text === 'name') Session.set('sort', { name: 1 });
+    else if (text === 'uses') Session.set('sort', { uses: -1 });
+    else if (text === 'upvotes') Session.set('sort', { upvotes: -1 });
+    else Session.set('sort', { downvotes: -1 });
   },
   'keyup input': function () {
     Session.set('search', $('#search').val());

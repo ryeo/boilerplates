@@ -3,6 +3,11 @@ hr {
     border-style: dashed;
 }
 
+.selectedSort {
+    background-color: #05c;
+    color: #eee;
+}
+
 .topbar {
     position: fixed;
     background-color: #eee;

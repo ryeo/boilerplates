@@ -1,3 +1,4 @@
+
 <head>
   <title>Boilerplates</title>
 </head>
@@ -79,10 +80,10 @@
         <input class="pull-right" type="text" id="search" placeholder="Search by name..." />
         <table class="table">
           <thead>
-            <th>Name</th>
-            <th>Uses</th>
-            <th>Upvotes</th>
-            <th>Downvotes</th>
+            <th class="{{sort.name}}">Name</th>
+            <th class="{{sort.uses}}">Uses</th>
+            <th class="{{sort.upvotes}}">Upvotes</th>
+            <th class="{{sort.downvotes}}">Downvotes</th>
           </thead>
           <tbody>
             {{#each boilerplates}}
