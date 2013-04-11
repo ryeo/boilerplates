@@ -81,11 +81,13 @@ Template.topbar.events({
 Template.boilerplates.boilerplates = function () {
   Session.setDefault('selectedTag', '');
   Session.setDefault('search', '');
-  Session.setDefault('sort', { name: 1 });
+  Session.setDefault('sort', ['name', 1]);
+  var sort = {};
+  sort[Session.get('sort')[0]] = Session.get('sort')[1];
   if (Boilerplates.find().fetch().length === 0) return;
   return Boilerplates.find({ tags: Session.get('selectedTag'),
                              name: { $regex: '.*' + Session.get('search') + '.*', $options: 'i' } },
-                           { sort: Session.get('sort') });
+                           { sort: sort });
 }
 
 Template.boilerplates.tags = function () {
@@ -131,16 +133,16 @@ Template.boilerplates.selectedTag = function () {
 }
 
 Template.boilerplates.sort = function () {
+  Session.setDefault('sort', ['name', 1]);
   var sort = {
     name: '',
     uses: '',
     upvotes: '',
     downvotes: ''
   };
-  if (Session.get('sort').name) sort.name = 'selectedSort';
-  if (Session.get('sort').uses) sort.uses = 'selectedSort';
-  if (Session.get('sort').upvotes) sort.upvotes = 'selectedSort';
-  if (Session.get('sort').downvotes) sort.downvotes = 'selectedSort';
+  for (key in sort) {
+    if (Session.get('sort')[0] === key) sort[key] = 'selectedSort';
+  }
   return sort;
 }
 
@@ -191,10 +193,9 @@ Template.boilerplates.events({
   },
   'click th': function (event) {
     var text = event.target.innerText.toLowerCase();
-    if (text === 'name') Session.set('sort', { name: 1 });
-    else if (text === 'uses') Session.set('sort', { uses: -1 });
-    else if (text === 'upvotes') Session.set('sort', { upvotes: -1 });
-    else Session.set('sort', { downvotes: -1 });
+    var order = -1;
+    if (text === 'name') order = 1;
+    Session.set('sort', [text, order]);
   },
   'keyup input': function () {
     Session.set('search', $('#search').val());
