@@ -6,7 +6,7 @@ Meteor.Router.add({
   '/': 'main',
   '/boilerplates': 'boilerplates',
   '/boilerplates/:name': function (name) {
-    if (! Boilerplates.findOne({ name: name })) { Meteor.Router.to('/boilerplates'); return 'boilerplates'; }
+    if (! Boilerplates.findOne({ name: name })) { Meteor.Router.to('/boilerplates'); return 'boilerplates'; };
     Session.set('boilerplate', name);
     return 'detail';
   },
@@ -16,17 +16,17 @@ Meteor.Router.add({
   }
 });
 
-Template.page.loading = function () { return Session.get('loading'); }
+Template.page.loading = function () { return Session.get('loading'); };
 
 Template.main.mostUsed = function () {
   return Boilerplates.find({}, { sort: { uses: -1 } }).fetch().slice(0, 10);
-}
+};
 
 Template.main.highestVoted = function () {
   return Boilerplates.find({}, { sort: { upvotes: -1 } }).fetch().slice(0, 10);
-}
+};
 
-Template.main.count = function () { return Boilerplates.find().count(); }
+Template.main.count = function () { return Boilerplates.find().count(); };
 
 Template.main.totalUpvotes = function () {
   var upvotes = 0;
@@ -34,7 +34,7 @@ Template.main.totalUpvotes = function () {
     upvotes += bp.upvotes;
   });
   return upvotes;
-}
+};
 
 Template.main.totalDownvotes = function () {
   var downvotes = 0;
@@ -42,7 +42,7 @@ Template.main.totalDownvotes = function () {
     downvotes += bp.downvotes;
   });
   return downvotes;
-}
+};
 
 Template.main.totalUses = function () {
   var uses = 0;
@@ -50,7 +50,7 @@ Template.main.totalUses = function () {
     uses += bp.uses;
   });
   return uses;
-}
+};
 
 Template.main.events({
   'click button.btn-success': function () {
@@ -60,7 +60,7 @@ Template.main.events({
   },
   'click button.btn-danger': function () {
     Meteor.logout(function (err) {
-      if (err) alert('An error occurred during the logout process.')
+      if (err) alert('An error occurred during the logout process.');
     });
   }
 });
@@ -88,16 +88,16 @@ Template.boilerplates.boilerplates = function () {
   return Boilerplates.find({ tags: Session.get('selectedTag'),
                              name: { $regex: '.*' + Session.get('search') + '.*', $options: 'i' } },
                            { sort: sort });
-}
+};
 
 Template.boilerplates.tags = function () {
   return Tags.find({}, { sort: { name: 1 } });
-}
+};
 
 Template.detail.bp = function () {
   if (Boilerplates.find().fetch().length === 0) return;
   return Boilerplates.findOne({ name: Session.get('boilerplate') });
-}
+};
 
 Template.detail.readme = function () {
   if (Boilerplates.find().fetch().length === 0) return;
@@ -110,9 +110,9 @@ Template.detail.readme = function () {
     });
   } else {
     rdm = 'No README URL specified.';
-  }
+  };
   return rdm;
-}
+};
 
 Template.detail.events({
   'click button.btn-success': function () {
@@ -130,7 +130,7 @@ Template.detail.events({
 Template.boilerplates.selectedTag = function () {
   if (Session.equals('selectedTag', this.name)) return 'active';
   return '';
-}
+};
 
 Template.boilerplates.sort = function () {
   Session.setDefault('sort', ['name', 1]);
@@ -144,7 +144,7 @@ Template.boilerplates.sort = function () {
     if (Session.get('sort')[0] === key) sort[key] = 'selectedSort';
   }
   return sort;
-}
+};
 
 Template.add.events({
   'click button.btn-success': function () {
@@ -167,16 +167,16 @@ Template.add.events({
     Meteor.call('verifyBoilerplate', bp, function (err, res) {
       if (! res.name) {
         alert('You either didn\'t supply a name, or this name is taken.'); return;
-      }
+      };
       if (! res.cloneURL) {
         alert('You either didn\'t supply a clone URL, or this clone URL has been added.'); return;
-      }
+      };
       for (var i = 0; i < bp.tags.length; i++) {
         var tag = Tags.findOne({ name: bp.tags[i] });
         if (! tag && bp.tags[i] !== '') {
           Tags.insert({ name: bp.tags[i] });
-        }
-      }
+        };
+      };
       if (bp.readmeURL !== '') bp.readmeURL = 'http://' + bp.readmeURL.split('://')[1];
       Boilerplates.insert(bp);
       Meteor.Router.to('/boilerplates');
@@ -188,11 +188,11 @@ Template.boilerplates.events({
   'click li.tag': function () {
     if (Session.equals('selectedTag', this.name)) {
       Session.set('selectedTag', ''); return;
-    }
+    };
     Session.set('selectedTag', this.name);
   },
   'click th': function (event) {
-    var text = event.target.innerText.toLowerCase();
+    var text = $(event.target).text().toLowerCase();
     var order = -1;
     if (text === 'name') order = 1;
     Session.set('sort', [text, order]);
